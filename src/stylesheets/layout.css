@@ -1,0 +1,57 @@
+.navbar {
+  background-color: rgb(115, 160, 49) !important;
+}
+.nav-link {
+  color: #fff !important;
+}
+.navh {
+  padding-left: 8px;
+}
+.navbar-brand {
+  color: #fff !important;
+  font-weight: bold;
+}
+.footer {
+  padding: 10px;
+  text-align: center;
+  background-color: rgb(115, 160, 49);
+  color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+.content {
+  padding-top: 80px;
+}
+button {
+  background-color: rgb(115, 160, 49);
+  box-shadow: none;
+  border: 1px solid aliceblue;
+  color: aliceblue;
+  padding: 5px;
+}
+button:hover {
+  background-color: aliceblue;
+  color: rgb(115, 160, 49);
+}
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.spinner-border {
+  height: 100px;
+  width: 100px;
+}
+a {
+  text-decoration: none;
+}
