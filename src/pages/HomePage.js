@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import fireDB from '../fireconfig';
-import fireproducts from '../product';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,6 +11,9 @@ function HomePage() {
   const[products, setProducts] = useState([]);
   const {cartItems} = useSelector(state=>state.cartReducer)
   const[loading, setLoading] = useState(false)
+  const[searchKey, setSearchKey] = useState('')
+  const[filterType, setFilterType] = useState('')
+  
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -53,8 +55,20 @@ function HomePage() {
   return (
     <Layout loading={loading}>
         <div className='container'>
+          <div className='d-flex w-50 align-items-center my-3 justify-conten-center'>
+            <input type='text' value={searchKey} onChange={(e)=>{setSearchKey(e.target.value)}} className='form-control mx-2' placeholder='search items'/>
+            <select className='form-control mt-3' value={filterType} onChange={(e)=>{setFilterType(e.target.value)}}>
+              <option value=''>All</option>
+              <option value='electronics'>Electronics</option>
+              <option value='mobiles'>Mobiles</option>
+              <option value='fashion'>Fashions</option>
+            </select>
+          </div>
           <div className='row'>
-            {products.map((product)=>{
+            {products
+            .filter(obj=>obj.name.includes(searchKey))
+            .filter(obj=>obj.category.includes(filterType))
+            .map((product)=>{
               return <div className='col-md-4'>
                 <div className='m-2 p-1 product position-relative'>
                   <p>{product.name}</p>

@@ -55,3 +55,7 @@ button:hover {
 a {
   text-decoration: none;
 }
+input,
+select {
+  height: 35px !important;
+}
