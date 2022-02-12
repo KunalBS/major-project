@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { collection, addDoc, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import fireDB from '../fireconfig';
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import { Modal } from 'react-bootstrap';
+import { Modal, Tab, Tabs } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 function AdminPage() {
 
   const[products, setProducts] = useState([]);  
+  const[orders, setOrders] = useState([]);
   const[loading, setLoading] = useState(false)
   const [product, setProduct] = useState({
       name: "",
@@ -43,6 +44,27 @@ function AdminPage() {
         setLoading(false)
       });
       setProducts(productsArray);
+    }catch(error){
+      console.log(error);
+      setLoading(false)
+    }
+  }
+
+  useEffect(()=>{
+    getOrdersData()
+  },[]);
+
+  async function getOrdersData(){
+    
+    try{
+      setLoading(true)
+      const result = await getDocs(collection(fireDB, "orders"))
+      const ordersArray = [];
+      result.forEach((doc) => {
+        ordersArray.push(doc.data());
+        setLoading(false)
+      });
+      setOrders(ordersArray);
     }catch(error){
       console.log(error);
       setLoading(false)
@@ -100,7 +122,10 @@ function AdminPage() {
 
   return (
     <Layout loading={loading}>
-        <div className='d-flex justify-content-between'>
+
+<Tabs defaultActiveKey="products" id="uncontrolled-tab-example" className="mb-3">
+  <Tab eventKey="products" title="products">
+  <div className='d-flex justify-content-between'>
             <h3>Product's List</h3>
             <button onClick={addHandler}>ADD PRODUCTS</button>
         </div>
@@ -151,7 +176,41 @@ function AdminPage() {
             {add ? (<button onClick={addProduct}>SAVE</button>) : <button onClick={updateProduct}>SAVE</button>}
         </Modal.Footer>
        </Modal>
-    </Layout>
+  </Tab>
+
+
+  <Tab eventKey="orders" title="orders">
+  {orders.map((order)=>{
+          return <table className='table mt-3 order'>
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              order.cartItems.map(item=>{
+                return<tr>
+                  <td><img src={item.imageURL} alt='' height='80' width='80'/></td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                </tr>
+            }
+              )}
+            
+          </tbody>
+        </table>
+      })}
+  </Tab>
+
+
+  <Tab eventKey="contact" title="Contact" disabled>
+    
+  </Tab>
+</Tabs>
+</Layout>
   )
 }
 

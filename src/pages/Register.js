@@ -19,6 +19,9 @@ function Register() {
       console.log(result);
       setLoading(false)
       toast.success('Registration Successful')
+      setEmail('')
+      setPassword('')
+      setCpassword('')
     }catch(error){
       console.log(error);
       toast.error('registration failed')
@@ -48,9 +51,9 @@ function Register() {
               <hr/>
               <input type='text' className='form-control' placeholder='email' value={email} 
               onChange={(e)=>{setEmail(e.target.value)}}/>
-              <input type='text' className='form-control' placeholder='password' value={password} 
+              <input type='password' className='form-control' placeholder='password' value={password} 
               onChange={(e)=>{setPassword(e.target.value)}}/>
-              <input type='text' className='form-control' placeholder='Confirm password' value={cpassword} 
+              <input type='password' className='form-control' placeholder='Confirm password' value={cpassword} 
               onChange={(e)=>{setCpassword(e.target.value)}}/>
               <button className='my-3' onClick={register}>Register</button>
               <hr/>
